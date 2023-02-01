@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.gradesubmission.entity.Student;
 import com.example.gradesubmission.service.StudentService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 
@@ -34,12 +35,12 @@ public class StudentController {
   }
 
   @PostMapping
-  public ResponseEntity<Student> saveStudent(@RequestBody Student student) {
+  public ResponseEntity<Student> saveStudent(@Valid @RequestBody Student student) {
     return new ResponseEntity<>(studentService.saveStudent(student) ,HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Student> updateStudent(@RequestBody Student student, @PathVariable Long id) {
+  public ResponseEntity<Student> updateStudent(@Valid @RequestBody Student student, @PathVariable Long id) {
     student.setId(id);
     return new ResponseEntity<>(studentService.saveStudent(student) ,HttpStatus.OK);
   }
