@@ -1,10 +1,17 @@
 package com.example.gradesubmission.entity;
 
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -36,4 +43,13 @@ public class Course {
   @NonNull
   @Column(name = "description", nullable = false)
   private String description;
+
+  @JsonIgnore
+  @ManyToMany
+  @JoinTable(
+    name = "course_student",
+    joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id")
+  )
+  private Set<Student> students;
 }
