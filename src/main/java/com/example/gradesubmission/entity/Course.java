@@ -1,9 +1,11 @@
 package com.example.gradesubmission.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -43,6 +46,11 @@ public class Course {
   @NonNull
   @Column(name = "description", nullable = false)
   private String description;
+
+  //this is parent table of "grade" table, mappedBy so dont create a new table
+  @JsonIgnore
+  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+  private List<Grade> grades;
 
   @JsonIgnore
   @ManyToMany
