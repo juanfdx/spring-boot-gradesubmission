@@ -52,6 +52,7 @@ public class Course {
   @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
   private List<Grade> grades;
 
+  //ManyToMany courses and students
   @JsonIgnore
   @ManyToMany
   @JoinTable(
@@ -59,5 +60,5 @@ public class Course {
     joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id")
   )
-  private Set<Student> students;
+  private Set<Student> students;//Set , prevents duplicated entries
 }

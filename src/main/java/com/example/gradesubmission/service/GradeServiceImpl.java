@@ -10,6 +10,7 @@ import com.example.gradesubmission.entity.Course;
 import com.example.gradesubmission.entity.Grade;
 import com.example.gradesubmission.entity.Student;
 import com.example.gradesubmission.exception.GradeNotFoundException;
+import com.example.gradesubmission.exception.StudentNotEnrolledException;
 import com.example.gradesubmission.repository.CourseRepository;
 import com.example.gradesubmission.repository.GradeRepository;
 import com.example.gradesubmission.repository.StudentRepository;
@@ -38,6 +39,8 @@ public class GradeServiceImpl implements GradeService {
     //has to assign grade to a student before save the grade, so we get the student
     Student student = StudentServiceImpl.unwrapStudent(studentRepository.findById(studentId), studentId);
     Course course = CourseServiceImpl.unwrapCourse(courseRepository.findById(courseId), courseId);
+    //check if this student is enrolled or exist on this course
+    if (!student.getCourses().contains(course)) throw new StudentNotEnrolledException(studentId, courseId);
     grade.setStudent(student);
     grade.setCourse(course);
     return gradeRepository.save(grade);
